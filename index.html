@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Sederhana</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #f0f0f0;
+            transition: background 0.3s;
+        }
+
+        .calculator {
+            width: 340px;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 15px 15px 20px rgba(0, 0, 0, 0.1), -15px -15px 20px #fffb;
+            background-color: white;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        #value {
+            user-select: none;
+            overflow: hidden;
+            width: 100%;
+            text-align: end;
+            color: #5166d6;
+            height: 70px;
+            line-height: 70px;
+            box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.1), inset -5px -5px 20px #fff;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            padding: 0 20px;
+            font-size: 32px;
+            background-color: #f8f8f8;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .buttons span {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 70px;
+            background-color: #5166d6;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-size: 24px;
+        }
+
+        .buttons span:hover {
+            background-color: #4055b1;
+        }
+
+        .clear {
+            grid-column: span 2;
+        }
+
+        .operator {
+            background-color: #e67e22;
+        }
+
+        .operator:hover {
+            background-color: #d56b1f;
+        }
+
+        .operator.vertical {
+            grid-row: span 2;
+            height: 152px;
+        }
+
+        .toggle-button {
+            position: absolute;
+            top: 20px;
+            right: 100px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            transition: color 0.3s;
+        }
+
+        .color-options {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .color-button {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        /* Dark mode styles */
+        body.dark {
+            background: #1a1a1a;
+        }
+
+        body.dark .calculator {
+            background-color: #333;
+            color: #f0f0f0;
+        }
+
+        body.dark #value {
+            color: #f0f0f0;
+            background-color: #444;
+        }
+
+        body.dark .buttons span {
+            background-color: #444;
+            color: #f0f0f0;
+        }
+
+        body.dark .buttons span:hover {
+            background-color: #555;
+        }
+
+        body.dark .operator {
+            background-color: #e67e22;
+        }
+
+        body.dark .operator:hover {
+            background-color: #d56b1f;
+        }
+
+        /* Color variation styles for light mode */
+        .color-variant1 {
+            background-color: #ffcc00;
+            color: #000;
+        }
+
+        .color-variant2 {
+            background-color: #00ccff;
+            color: #000;
+        }
+
+        .color-variant3 {
+            background-color: #ff6699;
+            color: #fff;
+        }
+
+        .color-variant4 {
+            background-color: #66ff66;
+            color: #000;
+        }
+
+        /* Dark mode color variants */
+        body.dark .color-variant1 {
+            background-color: #b39b00;
+            /* Darker shade for variant 1 */
+        }
+
+        body.dark .color-variant2 {
+            background-color: #0099cc;
+            /* Darker shade for variant 2 */
+        }
+
+        body.dark .color-variant3 {
+            background-color: #cc3366;
+            /* Darker shade for variant 3 */
+        }
+
+        body.dark .color-variant4 {
+            background-color: #33cc33;
+            /* Darker shade for variant 4 */
+        }
+    </style>
+</head>
+
+<body>
+    <button class="toggle-button" onclick="toggleMode()">🌙</button>
+    <div class="calculator" id="calculator">
+        <div id="value"></div>
+        <div class="buttons">
+            <span class="clear" onclick="clearDisplay()">Clear</span>
+            <span class="operator" onclick="appendToDisplay('/')">/</span>
+            <span class="operator" onclick="appendToDisplay('*')">*</span>
+            <span onclick="appendToDisplay('7')">7</span>
+            <span onclick="appendToDisplay('8')">8</span>
+            <span onclick="appendToDisplay('9')">9</span>
+            <span class="operator" onclick="appendToDisplay('-')">-</span>
+            <span onclick="appendToDisplay('4')">4</span>
+            <span onclick="appendToDisplay('5')">5</span>
+            <span onclick="appendToDisplay('6')">6</span>
+            <span class="operator vertical" onclick="appendToDisplay('+')">+</span>
+            <span onclick="appendToDisplay('1')">1</span>
+            <span onclick="appendToDisplay('2')">2</span>
+            <span onclick="appendToDisplay('3')">3</span>
+            <span onclick="appendToDisplay('0')">0</span>
+            <span onclick="appendToDisplay('00')">00</span>
+            <span onclick="appendToDisplay('.')">.</span>
+            <span class="operator" onclick="calculateResult()">=</span>
+        </div>
+        <div class="color-options">
+            <button class="color-button color-variant1" onclick="setColor('color-variant1')"></button>
+            <button class="color-button color-variant2" onclick="setColor('color-variant2')"></button>
+            <button class="color-button color-variant3" onclick="setColor('color-variant3')"></button>
+            <button class="color-button color-variant4" onclick="setColor('color-variant4')"></button>
+        </div>
+    </div>
+
+    <script>
+        function appendToDisplay(value) {
+            const display = document.getElementById('value');
+            display.innerText += value;
+        }
+
+        function calculateResult() {
+            const display = document.getElementById('value');
+            try {
+                display.innerText = eval(display.innerText);
+            } catch (error) {
+                display.innerText = 'Error';
+            }
+        }
+
+        function clearDisplay() {
+            const display = document.getElementById('value');
+            display.innerText = '';
+        }
+
+        function toggleMode() {
+            document.body.classList.toggle('dark');
+            const toggleButton = document.querySelector('.toggle-button');
+            toggleButton.innerText = document.body.classList.contains('dark') ? '🌞' : '🌙';
+        }
+
+        function setColor(colorClass) {
+            const calculator = document.getElementById('calculator');
+            calculator.className = 'calculator'; // Reset to base class
+            calculator.classList.add(colorClass);
+        }
+    </script>
+</body>
+
+</html>
