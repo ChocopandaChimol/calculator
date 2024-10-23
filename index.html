@@ -114,7 +114,6 @@
             transition: transform 0.2s;
         }
 
-        /* Dark mode styles */
         body.dark {
             background: #1a1a1a;
         }
@@ -146,7 +145,6 @@
             background-color: #d56b1f;
         }
 
-        /* Color variation styles for light mode */
         .color-variant1 {
             background-color: #ffcc00;
             color: #000;
@@ -167,25 +165,20 @@
             color: #000;
         }
 
-        /* Dark mode color variants */
         body.dark .color-variant1 {
             background-color: #b39b00;
-            /* Darker shade for variant 1 */
         }
 
         body.dark .color-variant2 {
             background-color: #0099cc;
-            /* Darker shade for variant 2 */
         }
 
         body.dark .color-variant3 {
             background-color: #cc3366;
-            /* Darker shade for variant 3 */
         }
 
         body.dark .color-variant4 {
             background-color: #33cc33;
-            /* Darker shade for variant 4 */
         }
     </style>
 </head>
@@ -250,7 +243,7 @@
 
         function setColor(colorClass) {
             const calculator = document.getElementById('calculator');
-            calculator.className = 'calculator'; // Reset to base class
+            calculator.className = 'calculator';
             calculator.classList.add(colorClass);
         }
     </script>
